@@ -217,15 +217,16 @@ onMounted(async () => {
 
   info.update = function (props) {
     const contents = props
-      ? props.company
-        ? props.total
-          ? `<b>${props.name || 'Unclaimed'}</b><br />${props.company}<br />Rep: ${props.rep}<br />£${props.total}`
-          : `<b>${props.name || 'Unclaimed'}</b><br />${props.company}<br />No financial data`
-        : props.company
-          ? `<b>${props.name}</b><br />${props.company}`
-          : `<b>${props.name}</b><br />`
-      : 'Hover over a postcode'
-    this._div.innerHTML = `<h4>Companies by area</h4>${contents}`
+      ? [
+          props.name && `<b>${props.name}</b>`,
+          props.company && props.company,
+          props.rep && `Rep: ${props.rep}`,
+          props.total && `£${props.total}`,
+        ]
+          .filter((text) => text) // Filter out falsy values like null, undefined, or empty strings
+          .join('<br />')
+      : 'Hover over a postcode';
+    this._div.innerHTML = `<h4>Companies by area</h4>${contents}`;
   }
 
   info.addTo(map)
@@ -351,6 +352,10 @@ onMounted(async () => {
     companiesLayer.eachLayer((layer) => {
       companiesLayer.resetStyle(layer)
     })
+    
+    postcodesLayer.eachLayer((layer) => {
+        postcodesLayer.resetStyle(layer);
+    });
   })
 
   // -----------------------------------------
@@ -383,7 +388,7 @@ onMounted(async () => {
       }).addTo(showroomLayer)
 
       marker.bindPopup(
-        `<b>Name: ${showroom.Name}</b><br>Company: ${showroom.Company}<br>Address: ${showroom.Address}`,
+        `<b>Name: ${showroom.Name}</b><br>Company: ${showroom.Company}<br>Address: ${showroom.Address}<br>Products: `,
       )
     }
   })
@@ -423,7 +428,6 @@ onMounted(async () => {
         <select id="dropdownSelect">
           <option value="company">Company</option>
           <option value="delivery">Delivery</option>
-          <option value="all">All</option>
         </select>
       </label>
     `
