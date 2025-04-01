@@ -497,10 +497,28 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div id="map" style="width: 100%; height: 950px"></div>
+    <div id="map" ></div>
 </template>
 
 <style>
+html, body, #map {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    height: 100dvh;
+    width: 100dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#map {
+    flex: 1;
+}
+
 header {
   line-height: 1.5;
 }
