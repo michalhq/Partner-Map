@@ -218,7 +218,7 @@ onMounted(async () => {
   info.update = function (props) {
     const contents = props
       ? [
-          props.name && `<b>${props.name}</b>`,
+          props.name ? `<b>${props.name}</b>`: 'Undefined',
           props.company && props.company,
           props.rep && `Rep: ${props.rep}`,
           props.total && `£${props.total}`,
