@@ -26,6 +26,11 @@ const routes = [
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue'), // Replace with your 404 component
   },
+  {
+    path: '/:pathMatch(.*)*', // Catch-all route
+    name: 'NotFound',
+    component: () => import('@/views/NotFound.vue'), // Replace with your 404 component
+  },
 ]
 
 const router = createRouter({
